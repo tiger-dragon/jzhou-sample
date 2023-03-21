@@ -17,8 +17,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/persons").hasAnyRole("USER", "SUPER_USER")
+                .antMatchers(HttpMethod.GET, "/persons/**").hasAnyRole("USER", "SUPER_USER")
                 .antMatchers(HttpMethod.POST, "/persons").hasRole("SUPER_USER")
-                .antMatchers(HttpMethod.DELETE, "/persons").hasRole("SUPER_USER")
+                .antMatchers(HttpMethod.DELETE, "/persons/**").hasRole("SUPER_USER")
                 .anyRequest().authenticated()
                 .and().httpBasic().and().csrf().disable();
     }

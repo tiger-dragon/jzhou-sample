@@ -71,7 +71,7 @@ public class PersonController {
 
     // passed
     @DeleteMapping("/persons/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('SUPER_USER')")
     public ResponseEntity<Void> deletePersonByPersonId(@PathVariable UUID id) {
         if (personService.existsByPersonId(id)) {
             personService.deleteByPersonId(id);
