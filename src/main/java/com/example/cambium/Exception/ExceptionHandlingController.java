@@ -13,13 +13,13 @@ public class ExceptionHandlingController {
     @ExceptionHandler(ValidationFailedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     ExceptionResponse validationFailed(ValidationFailedException ex) {
-        ExceptionResponse resp = new ExceptionResponse("400 Bad Request", "Validation failed");
+        ExceptionResponse resp = new ExceptionResponse("400 Bad Request", "Validation failed: " + ex.getMessage());
         return resp;
     }
     @ExceptionHandler(InsertionFailedException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     ExceptionResponse insertionFailed(InsertionFailedException ex) {
-        ExceptionResponse resp = new ExceptionResponse("409 Conflict", "Insertion failed");
+        ExceptionResponse resp = new ExceptionResponse("409 Conflict", "Insertion failed: " + ex.getMessage());
         return resp;
     }
 }

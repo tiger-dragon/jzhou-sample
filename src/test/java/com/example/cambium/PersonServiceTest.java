@@ -42,7 +42,6 @@ public class PersonServiceTest {
         person2.setLastName("Doe");
         List<Person> persons = Arrays.asList(person1, person2);
 
-        //when(personRepository.findAll(Sort.by("lastName"))).thenReturn(persons);
         when(personRepository.findAllByOrderByLastNameAsc()).thenReturn(persons);
 
         List<PersonDTO> result = personService.getAllPersonsSortedByLastName().get();

@@ -11,10 +11,27 @@ public class PersonDTO {
     private String lastName;
 
     public void validate() throws ValidationFailedException {
-        // validate...
-        // for example, check if name and personId contain invalid characters or if they are null, etc
-        if (this.lastName.matches(".*[%@$#&].*")) {
-            throw new ValidationFailedException("bad character in last name");
+        // validate and sanitize...
+
+        // make sure first name and last name is not null
+        if (lastName == null || firstName == null )
+        {
+            throw new ValidationFailedException("name field can't be null");
+        }
+
+        // check if name contains invalid characters etc
+        if (lastName.matches(".*[%@$#&].*") || firstName.matches(".*[%@$#&].*")) {
+            throw new ValidationFailedException("special characters not allowed in name");
+        }
+
+        // trim off whitespace
+        setFirstName(firstName.trim());
+        setLastName(lastName.trim());
+
+        // After trimming, they could become empty string so check it.
+        if (lastName.isEmpty() || firstName.isEmpty())
+        {
+            throw new ValidationFailedException("name field can't be empty");
         }
     }
 
