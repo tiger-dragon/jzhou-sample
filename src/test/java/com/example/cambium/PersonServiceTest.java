@@ -53,4 +53,24 @@ public class PersonServiceTest {
         assertEquals("Jane", result.get(1).getFirstName());
         assertEquals("Doe", result.get(1).getLastName());
     }
+
+    @Test
+    public void testSave() {
+        Person person = new Person();
+        person.setPersonId(UUID.randomUUID());
+        person.setFirstName("John");
+        person.setLastName("Doe");
+
+        PersonDTO dto = new PersonDTO();
+        dto.setLastName(person.getLastName());
+        dto.setFirstName(person.getFirstName());
+        dto.setPersonId(person.getPersonId());
+
+        // the JPA repository save function will return the saved object
+        when(personRepository.save(any(Person.class))).thenReturn(person);
+        PersonDTO saved = personService.savePerson(dto);
+
+        assertEquals("John", saved.getFirstName());
+        assertEquals("Doe", saved.getLastName());
+    }
 }
