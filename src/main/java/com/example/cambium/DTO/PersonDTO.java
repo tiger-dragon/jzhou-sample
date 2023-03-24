@@ -3,12 +3,14 @@ package com.example.cambium.DTO;
 import com.example.cambium.Exception.ValidationFailedException;
 
 import java.util.UUID;
+import java.util.List;
 
 public class PersonDTO {
     private Long id;
     private UUID personId;
     private String firstName;
     private String lastName;
+    private List<EnrollmentDTO> enrollments;
 
     public void validate() throws ValidationFailedException {
         // validate and sanitize...
@@ -65,5 +67,13 @@ public class PersonDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<EnrollmentDTO> getEnrollments() {
+        return enrollments;
+    }
+
+    public void setEnrollments(List<EnrollmentDTO> enrollments) {
+        this.enrollments = enrollments;
     }
 }

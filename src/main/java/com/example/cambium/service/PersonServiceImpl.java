@@ -2,7 +2,6 @@ package com.example.cambium.service;
 
 import com.example.cambium.DTO.PersonDTO;
 import com.example.cambium.Exception.InsertionFailedException;
-import com.example.cambium.controller.PersonController;
 import com.example.cambium.entity.Person;
 import com.example.cambium.repository.PersonRepository;
 import org.slf4j.Logger;
@@ -99,4 +98,5 @@ public class PersonServiceImpl implements PersonService {
     public void deleteByPersonId(UUID personId) {
         personRepository.deleteByPersonId(personId);
     }
+
 }

@@ -22,8 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/persons/*").hasAnyRole("USER", "SUPER_USER")
                 .antMatchers(HttpMethod.POST, "/persons").hasRole("SUPER_USER")
                 .antMatchers(HttpMethod.DELETE, "/persons/*").hasRole("SUPER_USER")
+                .antMatchers("/h2-console/**").permitAll() // still want to use H2 console for testing
                 .anyRequest().authenticated()
                 .and().httpBasic().and().csrf().disable();
+        http.headers().frameOptions().disable(); // for H2 console
     }
 
     @Autowired

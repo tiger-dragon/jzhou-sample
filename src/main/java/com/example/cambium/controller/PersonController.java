@@ -1,7 +1,11 @@
 package com.example.cambium.controller;
 
 
+import com.example.cambium.DTO.CourseDTO;
+import com.example.cambium.DTO.EnrollmentDTO;
 import com.example.cambium.DTO.PersonDTO;
+import com.example.cambium.service.CourseService;
+import com.example.cambium.service.EnrollmentService;
 import com.example.cambium.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +26,13 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    // passed
+    @Autowired
+    private EnrollmentService enrollmentService;
+
+    @Autowired
+    private CourseService courseService;
+
+    // Retrieve a person by its UUID
     @GetMapping("/persons/{id}")
     @PreAuthorize("hasAnyRole('USER', 'SUPER_USER')")
     public ResponseEntity<PersonDTO> getPersonByPersonId(@PathVariable UUID id) {
@@ -37,7 +47,36 @@ public class PersonController {
     }
 
 
-    // passed
+    // Enroll a person in a course. Here the personId is the primary key of the person and
+    // the courseId is the primary key of the course.
+    @PostMapping("/persons/{personId}/enroll/{courseId}")
+    @PreAuthorize("hasRole('SUPER_USER')")
+    public ResponseEntity<EnrollmentDTO> enroll(@PathVariable Long personId,
+                                            @PathVariable Long courseId) {
+
+        EnrollmentDTO dto = new EnrollmentDTO();
+        dto.setPersonId(personId);
+        dto.setCourseId(courseId);
+        EnrollmentDTO saved = enrollmentService.save(dto);
+
+        return new ResponseEntity<>(saved, HttpStatus.OK);
+
+    }
+
+    // Find all courses a person enrolled. The personId is the primary key of the person.
+    @GetMapping("/persons/{personId}/courses")
+    @PreAuthorize("hasAnyRole('SUPER_USER', 'USER')")
+    public ResponseEntity<List<CourseDTO>> findAllCoursesByPerson(@PathVariable Long personId /* person primary key */) {
+        Optional<List<CourseDTO>> optionalCourseList = courseService.getAllCourses(personId);
+
+        if ( optionalCourseList.isPresent()) {
+            return ResponseEntity.ok(optionalCourseList.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
     @PostMapping("/persons")
     @PreAuthorize("hasRole('SUPER_USER')")
     public ResponseEntity<PersonDTO> savePerson(@RequestBody PersonDTO personDTO) {
@@ -57,7 +96,7 @@ public class PersonController {
 
     }
 
-    // passed
+
     @GetMapping("/persons")
     @PreAuthorize("hasAnyRole('USER', 'SUPER_USER')")
     public ResponseEntity<List<PersonDTO>> getAllPersonsSortedByLastName() {
@@ -69,7 +108,7 @@ public class PersonController {
         }
     }
 
-    // passed
+
     @DeleteMapping("/persons/{id}")
     @PreAuthorize("hasRole('SUPER_USER')")
     public ResponseEntity<Void> deletePersonByPersonId(@PathVariable UUID id) {

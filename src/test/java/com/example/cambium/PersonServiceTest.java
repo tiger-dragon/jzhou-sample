@@ -1,23 +1,21 @@
 package com.example.cambium;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 import com.example.cambium.DTO.PersonDTO;
 import com.example.cambium.entity.Person;
 import com.example.cambium.repository.PersonRepository;
-import com.example.cambium.service.PersonService;
 import com.example.cambium.service.PersonServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Sort;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class PersonServiceTest {
@@ -68,9 +66,12 @@ public class PersonServiceTest {
 
         // the JPA repository save function will return the saved object
         when(personRepository.save(any(Person.class))).thenReturn(person);
+
+        // Test saveperson(...) method
         PersonDTO saved = personService.savePerson(dto);
 
         assertEquals("John", saved.getFirstName());
         assertEquals("Doe", saved.getLastName());
     }
+
 }

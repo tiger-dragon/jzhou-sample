@@ -2,6 +2,7 @@ package com.example.cambium.entity;
 
 import javax.persistence.*;
 import java.util.UUID;
+import java.util.List;
 
 @Entity
 // In a real-world app, the below unique constraints should be managed in the DB, not in the entity class
@@ -24,6 +25,10 @@ public class Person {
 
     @Column(name = "LAST_NAME")
     private String lastName;
+
+    // a person can have a list of enrollment
+    @OneToMany(mappedBy = "person")
+    private List<Enrollment> enrollments;
 
     public Long getId() {
         return id;
