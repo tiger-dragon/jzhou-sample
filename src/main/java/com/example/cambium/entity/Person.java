@@ -27,7 +27,8 @@ public class Person {
     private String lastName;
 
     // a person can have a list of enrollment
-    @OneToMany(mappedBy = "person")
+    // when we delete a person, all associated enrollments are deleted
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Enrollment> enrollments;
 
     public Long getId() {
