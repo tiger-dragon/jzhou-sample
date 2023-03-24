@@ -59,7 +59,7 @@ public class PersonController {
         dto.setCourseId(courseId);
         EnrollmentDTO saved = enrollmentService.save(dto);
 
-        return new ResponseEntity<>(saved, HttpStatus.OK);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
 
     }
 
@@ -92,7 +92,7 @@ public class PersonController {
         // will then be handled by the ExceptionHandlingController and return error message to the caller.
         PersonDTO savedPersonDTO = personService.savePerson(personDTO);
 
-        return new ResponseEntity<>(savedPersonDTO, HttpStatus.OK);
+        return new ResponseEntity<>(savedPersonDTO, HttpStatus.CREATED);
 
     }
 

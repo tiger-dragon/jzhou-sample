@@ -25,7 +25,7 @@ public class CourseController {
     public ResponseEntity<CourseDTO> saveCourse(@RequestBody CourseDTO courseDTO) {
 
         CourseDTO savedCourse = courseService.save(courseDTO);
-        return new ResponseEntity<>(savedCourse, HttpStatus.OK);
+        return new ResponseEntity<>(savedCourse, HttpStatus.CREATED);
     }
 
 }
